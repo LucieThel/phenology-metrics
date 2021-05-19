@@ -7,8 +7,8 @@
 
 # SOURCE R CODES ###################################################################################################################################################
 
-# source("simulation_birth_phenology.R")
-# source("phenology_metrics.R")
+source("simulation_birth_phenology.R")
+source("phenology_metrics.R")
 
 # SIMULATE A PHENOLOGY OF BIRTHS ###################################################################################################################################
 
