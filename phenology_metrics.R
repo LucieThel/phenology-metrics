@@ -650,9 +650,53 @@ pheno.meng <- function(pattern, percent=75, graph=F) {
 }
 
 # ZERBE PERL
-# cf. Zerbe P., Clauss M., Codron D., Bingaman Lackey L., Rensch E., Streich J. W., Hatt J.-M. & Müller D. W. (2012). Reproductive seasonality in captive wild
-# ruminants: implications for biogeographical adaptation, photoperiodic control, and life history. Biological Reviews, 87, 965-990.
-# DOI: 10.1111/j.1469-185x.2012.00238.x
+pheno.zerbe <- function(pattern, percent=80, graph=F) { 
+  # DOCUMENTATION
+  ## Description: period length gathering a certain percentage of births around the mode of the distribution. Cf. Zerbe P., Clauss M., Codron D., Bingaman Lackey
+  # L., Rensch E., Streich J. W., Hatt J.-M. & Müller D. W. (2012). Reproductive seasonality in captive wild ruminants: implications for biogeographical adaptation,
+  # photoperiodic control, and life history. Biological Reviews, 87, 965-990. DOI: 10.1111/j.1469-185x.2012.00238.x
+  ## Arguments: 
+  # pattern = a data frame with two columns (col1=time unit, col2=number of births).
+  # percent = specify the threshold percentage of births.
+  ## Values: all the periods gathering a certain percentage of births around the mode, the shortest period gathering a certain percentage of births around the mode.
+  ## Details: rounds to the smallest integer when a decimal value is returned. See Zerbe et al. 2012 for a description of the function. Require a working directory
+  # to work.
+  
+  # INITIALISATIONS
+  setwd(working_dir)
+  library(stringr)
+  colnames(pattern) <- c("unit", "nb_births")
+  c <- ncol(pattern)-1
+  n <- nrow(pattern)
+  write.table(pattern, file="pattern.txt", sep=";", row.names=F, col.names=F)
+  
+  # FUNCTION
+  cmd <- paste("perl ", "peakfinder.pl", "--t", percent, "--c", c, "--n", n, "pattern.txt", sep=" ")
+  object <- system(cmd, intern=T) # call perl
+  # extraction of the output of perl
+  summ <- data.frame(begin=rep(NA, length(object)), end=NA, nb_births=NA, prop_births=NA)
+  summ$begin <- as.numeric(str_extract(object, pattern="(?<=block )\\d+"))+1 # +1 because initialisation at 0
+  summ$end <- as.numeric(str_extract(object, pattern="(?<=to )\\d+"))+1
+  summ$nb_births <- as.numeric(str_extract(object, pattern="\\d+(?= births)"))
+  summ$prop_births <- as.numeric(str_extract(object, pattern="(?<=prop of )\\d+\\.\\d+"))
+  summ$length_period <- summ$end-summ$begin+1
+  summ <- na.omit(summ)
+  test <- unique(str_extract(object, pattern="No window found"))
+  if (length(test)>1) {
+    summ <- data.frame(begin=NA, end=NA, nb_births=NA, prop_births=NA, length_period=NA)
+    warning("No window found")
+  }
+  
+  # PLOT
+  if (graph==T) {
+    par(mfrow=c(1, 1))
+    plot(pattern$nb_births~pattern$unit, xlab="Time", ylab="Nb births", type="l")
+    rect(summ$begin, rep(0, nrow(summ)), summ$end, rep(max(pattern$nb_births+1), nrow(summ)), border=T, col=rgb(1, 0, 0, 0.2))  
+  }
+  
+  # OUTPUT
+  return(list(zerbe_perl=summ[1, ], summ=summ))
+}
 
 # RUTBERG
 pheno.rutberg <- function(pattern, percent=80, consecutive=F, graph=F) {
