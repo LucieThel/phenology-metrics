@@ -26,6 +26,18 @@ GENERAL INFORMATION
 
 
 
+	B. Other Contact Information (associated to Perl code, "zerbe" metric)
+
+		Name: Marcus Clauss
+
+		Institution: Clinic for Zoo Animals, Exotic Pets and Wildlife, University of Zurich
+
+		Address: Winterthurerstrasse 260, 8057 Zurich, Switzerland
+
+		Email: mclauss@vetclinics.uzh.ch
+
+
+
 
 
 SHARING/ACCESS INFORMATION
