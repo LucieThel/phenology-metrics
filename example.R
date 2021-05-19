@@ -95,7 +95,7 @@ pheno.skinner(pattern=birth_pattern_1, period=opt.period, percent=opt.percent, g
 
 pheno.meng(pattern=birth_pattern_1, percent=opt.percent, graph=opt.graph)
 
-#pheno.zerbe(pattern=birth_pattern_1, percent=opt.percent, graph=opt.graph)
+pheno.zerbe(pattern=birth_pattern_1, percent=opt.percent, graph=opt.graph)
 
 pheno.rutberg(pattern=birth_pattern_1, percent=opt.percent, consecutive=opt.consecutive, graph=opt.graph)
 
