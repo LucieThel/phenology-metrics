@@ -65,10 +65,10 @@ DATA-SPECIFIC INFORMATION
 
 
 
-See R codes for a detailed description of each function.
+Run example.R code to execute the functions. See phenology_metrics.R and simulation_birth_phenology.R codes for a detailed description of each function.
 
 
 
 
 
-This readme.txt file was generated on 2021-05-06 by Lucie Thel
+This readme.txt file was generated on 2021-05-19 by Lucie Thel
