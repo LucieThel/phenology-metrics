@@ -16,7 +16,7 @@
 # See details in each function.
 
 ### WORKING DIRECTORY
-working_dir <- "/home/lthel/Bureau/Rscripts metrics"
+working_dir <- "phenology-metrics-main"
 
 # FUNCTIONS ########################################################################################################################################################
 
@@ -663,7 +663,7 @@ pheno.zerbe <- function(pattern, percent=80, graph=F) {
   # to work.
   
   # INITIALISATIONS
-  setwd(working_dir)
+  #setwd(working_dir)
   library(stringr)
   colnames(pattern) <- c("unit", "nb_births")
   c <- ncol(pattern)-1
