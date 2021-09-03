@@ -19,21 +19,21 @@
 # - nb_tu_per_cycle : number of time unit (e.g. days) among which distributing births (default=365)
 
 ## birth_distrib = "peaks":
-# - mean_peaks : mean(s) of the normal distribution(s) (defaut=c(73, 146, 219, 292))
-# - nb_peaks : number of peaks during one cycle (defaut=4)
+# - mean_peaks : mean(s) of the normal distribution(s) (default=c(73, 146, 219, 292))
+# - nb_peaks : number of peaks during one cycle (default=4)
 # - probs : probabilities indicating in which probability density to draw the event "a female gives birth/a female does not give birth". The last value is
 # necessarily 1. It corresponds to the cumulative proportion of births occuring during each peak (default=c(0.2, 0.5, 0.7, 1))
-# - sd_peaks : standard deviation of the normal distribution(s) (defaut=c(15, 15, 15, 15))
+# - sd_peaks : standard deviation of the normal distribution(s) (default=c(15, 15, 15, 15))
 
 ## Consistency across reproductive cycles:
 # It is possible to modify the level of consistency between the reproductive cycles for "peaks" with one peak and "peaks" with two peaks distributions:
 # - "peaks" with one peak: variation of the mean and/or sd of the distribution of births
 # - "peaks" with two peaks: variation of the probability to give birth in the first or the second peak
-# - delta_mean : maximum number of time units to shift the mean around mean_peaks (defaut=0)
+# - delta_mean : maximum number of time units to shift the mean around mean_peaks (default=0)
 # - delta_prob : maximum  number of units to shift the probability to be born in the first peak around the first value of probs. The second value of probs is always
-# 1 (defaut=0)
-# - delta_sd :  maximum number of time units to shift the standard deviation around sd_peaks (defaut=0)
-# - variability : standard deviation of the normal distributions that define the new parameters (defaut=2). Warning: this parameter should not be set too high,
+# 1 (default=0)
+# - delta_sd :  maximum number of time units to shift the standard deviation around sd_peaks (default=0)
+# - variability : standard deviation of the normal distributions that define the new parameters (default=2). Warning: this parameter should not be set too high,
 # otherwise the new parameters could be drawn outside of the cycle limits. The mean of the normal distribution is defined by a random drawing of a date in the
 # interval [initial parametre - delta ; initial parametre + delta]. The function will draw values until it find one inside the limits of the cycle.
 
@@ -68,7 +68,7 @@ norm.patt <- function(nb_peaks=4, nb_tu_per_cycle=365, nb_draws_per_tu=10, probs
   try(if(nb_peaks!=length(probs)) stop(paste("you asked for ", nb_peaks, " peak(s), probs length must be ", nb_peaks, sep=""), call.=F))
   try(if(nb_peaks!=length(mean_peaks)) stop(paste("you asked for ", nb_peaks, " peak(s), mean_peaks length must be ", nb_peaks, sep=""), call.=F))
   try(if(nb_peaks!=length(sd_peaks)) stop(paste("you asked for ", nb_peaks, " peak(s), sd_peaks length must be ", nb_peaks, sep=""), call.=F))
-  # initialisation of the parametres
+  # initialisation of the parameters
   den_param <- vector("list", length=nb_peaks)
   for (peak in 1:nb_peaks) {
     den_param[[peak]]$moy <- mean_peaks[peak]
@@ -172,9 +172,9 @@ simulation.pattern <- function(format="col", graph=F, graph_format="ind", births
     for (cycle in 2:nb_cycles) {
       resol_mean <- delta_mean/10
       if (delta_mean>0) { # draw new mean
-        new_ref_mean <- seq(mean_peaks0-delta_mean, mean_peaks0+delta_mean, resol_mean) # references for the new parametres
+        new_ref_mean <- seq(mean_peaks0-delta_mean, mean_peaks0+delta_mean, resol_mean) # references for the new parameters
         try(if(min(new_ref_mean)<0 | max(new_ref_mean)>nb_tu_per_cycle) stop("mean(s) births date out of range", call.=F)) # check conditions
-        mean_peaks <- 0 # generate new parametres
+        mean_peaks <- 0 # generate new parameters
         while (mean_peaks<=0 | mean_peaks>nb_tu_per_cycle) { # draw mean_peaks until it falls into the adequate interval
           mean_peaks <- round(rnorm(1, mean=sample(new_ref_mean, 1), sd=variability), 0)
         }
