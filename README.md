@@ -54,8 +54,8 @@ DATA & FILE OVERVIEW
 
 
 
-1. File List: example.R, peakfinder.pl, phenology_metrics.R, simulation_birth_phenology.R
-This repository contains R codes to simulate phenology of births and to evaluate four characteristics of phenology (timing, synchrony, rhythmicity, regularity) thanks to metrics previously used to quantify phenology of births in large herbivores literature. These codes are used in the analyses of the work called “How to describe and measure phenology? An investigation on the diversity of metrics using phenology of births in large herbivores” (DOI: 10.1101/2021.05.17.444418), available on bioRxiv: https://www.biorxiv.org/content/10.1101/2021.05.17.444418v2.
+1. File List: example.R, peakfinder.pl, phenology_metrics.R, simulation_birth_phenology_norm.R
+This repository contains R codes to simulate phenology of births and to evaluate four characteristics of phenology (timing, synchrony, rhythmicity, regularity) thanks to metrics previously used to quantify phenology of births in large herbivores literature. These codes are used in the analyses of the work called “How to describe and measure phenology? An investigation on the diversity of metrics using phenology of births in large herbivores” (DOI: 10.1101/2021.05.17.444418), available on bioRxiv: https://www.biorxiv.org/content/10.1101/2021.05.17.444418v3.
 
 
 
@@ -65,10 +65,10 @@ DATA-SPECIFIC INFORMATION
 
 
 
-Run example.R code to execute the functions. See phenology_metrics.R and simulation_birth_phenology.R codes for a detailed description of each function.
+Run example.R code to execute the functions. See phenology_metrics.R and simulation_birth_phenology_norm.R codes for a detailed description of each function.
 
 
 
 
 
-This readme.txt file was generated on 2021-05-19 by Lucie Thel
+This readme.txt file was generated on 2021-09-03 by Lucie Thel
