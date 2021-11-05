@@ -25,7 +25,7 @@
 # - mean_peaks : mean(s) of the normal distribution(s) (default=c(73, 146, 219, 292))
 # - nb_peaks : number of peaks during one cycle (default=4)
 # - probs : probabilities indicating in which probability density to draw the event "a female gives birth/a female does not give birth". The last value is
-# necessarily 1. It corresponds to the cumulative proportion of births occuring during each peak (default=c(0.2, 0.5, 0.7, 1))
+# necessarily 1. It corresponds to the cumulative proportion of births occurring during each peak (default=c(0.2, 0.5, 0.7, 1))
 # - sd_peaks : standard deviation of the normal distribution(s) (default=c(15, 15, 15, 15))
 # - skewn : degree of skewness in the case of a skewed distribution (default=0)
 
@@ -37,7 +37,7 @@
 # - delta_sd :  maximum number of time units to shift the standard deviation around sd_peaks (default=0)
 # - variability : standard deviation of the normal distributions that define the new parameters (default=2). Warning: this parameter should not be set too high,
 # otherwise the new parameters could be drawn outside of the cycle limits. The mean of the normal distribution is defined by a random drawing of a date in the
-# interval [initial parametre - delta ; initial parametre + delta]. The function will draw values until it find one inside the limits of the cycle.
+# interval [initial parameter - delta ; initial parameter + delta]. The function will draw values until it find one inside the limits of the cycle.
 
 ### VALUES
 # The function returns a list of two elements: general_info and data_supracyc.
@@ -47,7 +47,7 @@
 ### REMARKS
 # The function cannot deal with birth patterns spanning more than one cycle (if the number of births at the end of the cycle is not 0, it will be automatically
 # reset for the following cycles). So the parameters should be selected to create a pattern of births that fits in one cycle duration.
-# The function is not designed to allow variations of the skewness for a skewed normal distribution accross several reproductive cycles.
+# The function is not designed to allow variations of the skewness for a skewed normal distribution across several reproductive cycles.
 
 ### EXAMPLES
 # random distribution of births:

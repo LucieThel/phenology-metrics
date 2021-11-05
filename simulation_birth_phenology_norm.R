@@ -22,7 +22,7 @@
 # - mean_peaks : mean(s) of the normal distribution(s) (default=c(73, 146, 219, 292))
 # - nb_peaks : number of peaks during one cycle (default=4)
 # - probs : probabilities indicating in which probability density to draw the event "a female gives birth/a female does not give birth". The last value is
-# necessarily 1. It corresponds to the cumulative proportion of births occuring during each peak (default=c(0.2, 0.5, 0.7, 1))
+# necessarily 1. It corresponds to the cumulative proportion of births occurring during each peak (default=c(0.2, 0.5, 0.7, 1))
 # - sd_peaks : standard deviation of the normal distribution(s) (default=c(15, 15, 15, 15))
 
 ## Consistency across reproductive cycles:
@@ -35,7 +35,7 @@
 # - delta_sd :  maximum number of time units to shift the standard deviation around sd_peaks (default=0)
 # - variability : standard deviation of the normal distributions that define the new parameters (default=2). Warning: this parameter should not be set too high,
 # otherwise the new parameters could be drawn outside of the cycle limits. The mean of the normal distribution is defined by a random drawing of a date in the
-# interval [initial parametre - delta ; initial parametre + delta]. The function will draw values until it find one inside the limits of the cycle.
+# interval [initial parameter - delta ; initial parameter + delta]. The function will draw values until it find one inside the limits of the cycle.
 
 ### VALUES
 # The function returns a list of two elements: general_info and data_supracyc.
@@ -50,13 +50,13 @@
 # all parameters constant for several reproductive cycles:
 # birth_patt1 <- simulation.pattern(format="row", graph=T, graph_format="ind", births_distrib="peaks", nb_tu_per_cycle=365, nb_draws_per_tu=10, nb_cycles=6,
 #                                   delta_prob=0, delta_mean=0, delta_sd=0, variability=0, nb_peaks=2, mean_peaks=c(146, 219), sd_peaks=c(15, 20), probs=c(0.5, 1))
-# variable mean date of births accross several reproductive cycles:
+# variable mean date of births across several reproductive cycles:
 # birth_patt2 <- simulation.pattern(format="row", graph=T, graph_format="ind", births_distrib="peaks", nb_tu_per_cycle=365, nb_draws_per_tu=10, nb_cycles=6,
 #                                   delta_prob=0, delta_mean=100, delta_sd=0, variability=2, nb_peaks=1, mean_peaks=183, sd_peaks=20, probs=1)
-# variable standard deviation of the distribution of births accross several reproductive cycles:
+# variable standard deviation of the distribution of births across several reproductive cycles:
 # birth_patt2 <- simulation.pattern(format="row", graph=T, graph_format="ind", births_distrib="peaks", nb_tu_per_cycle=365, nb_draws_per_tu=10, nb_cycles=6,
 #                                   delta_prob=0, delta_mean=0, delta_sd=30, variability=2, nb_peaks=1, mean_peaks=183, sd_peaks=50, probs=1)
-# variable probability to draw births in the first or the second peak accross several reproductive cycles:
+# variable probability to draw births in the first or the second peak across several reproductive cycles:
 # birth_patt3 <- simulation.pattern(format="row", graph=T, graph_format="ind", births_distrib="peaks", nb_tu_per_cycle=365, nb_draws_per_tu=10, nb_cycles=6,
 #                                   delta_prob=0.2, delta_mean=0, delta_sd=0, variability=2, nb_peaks=2, mean_peaks=c(146, 219), sd_peaks=c(15, 20), probs=c(0.5,1))
 
