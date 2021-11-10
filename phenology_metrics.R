@@ -12,6 +12,7 @@
 # the same nomenclature (output followed by: #### shortname ####). Thus, it is possible to quickly spot the output of a given metric in the code using the drop-down
 # menu in the RStudio interface. The other outputs returned by a function can either be additional metrics we though useful but not employed in the large herbivores
 # literature, or complementary outputs associated with a given metric, such as confidence intervals.
+# One can find the generic function used in the associated article, which returns one output for each metric for a given phenology of births at the same time.
 
 ### ARGUMENTS - VALUES - DETAILS
 # For each function, a "graph" argument allows to choose if a plot should be returned or not.
@@ -1690,6 +1691,137 @@ pheno.paoli2 <- function(pattern, graph=F) {
   # OUTPUT
   return(list(diff_synchrony_linear=diff_synchrony_linear, #### diffslin ####
               rsquared_diff_mean_linear=rsquared))
+}
+
+################################################################
+
+# Generic function returning one output for each metric as done in the associated article
+metrics.test <- function(pattern, graph=F, interval="check", percent_min=1, consecutive=F, first_quantile=10, last_quantile=90, percent=80, nsim=1000, confidence=F,
+                         CI=95, nboots=1000, transformation="none", post_hoc=F, resolution=0.1, period=3) {
+  
+  ### Reshape the phenology of births to adjust to each kind of metrics (apply to one year, two years or more than two years)
+  colnames(pattern) <- c("cycle", "unite", "nb_births") 
+  pattern$cycle <- as.numeric(as.factor(pattern$cycle)) # this line initiate the counting of the years to 1
+  # metrics which apply to one year : pattern.one
+  pattern.one <- pattern[pattern$cycle==1, c("unite", "nb_births")] # draw first year
+  # metrics which apply to two years : pattern.two
+  tab_int1 <- pattern[pattern$cycle==1, ] # draw first two years
+  tab_int2 <- pattern[pattern$cycle==2, ]
+  tab_int <- rbind(tab_int1, tab_int2)
+  tab_int$cycle <- rep(c(1, 2), each=(length(tab_int$unite)/2))
+  pattern.two <- tab_int[ , c("cycle", "unite", "nb_births")]
+  # metrics which apply to more than two years : pattern
+  
+  ### Data.frame of the outputs
+  fin_sum <- data.frame(pattern=NA)
+  
+  ### Calculate the value of each metric for the phenology of births tested
+  # One year
+  adamsjemison_mode <- pheno.adamsjemison(pattern.one, reference="mode", period=period, graph=graph) 
+  adamsjemison_median <- pheno.adamsjemison(pattern.one, reference="median", period=period, graph=graph) 
+  bunnellyomtov <- pheno.bunnellyomtov(pattern.one, graph=graph)
+  calabrese <- pheno.calabrese(pattern.one, percent=percent, graph=graph)
+  campos <- pheno.campos(pattern.one, graph=graph)
+  caughley <- pheno.caughley(pattern.one, graph=graph)
+  dibitetti <- pheno.dibitetti(pattern.one, graph=graph) 
+  findlaylambin <- pheno.findlaylambin(pattern.one, graph=graph) 
+  gaillardmajluf_quant <- pheno.gaillardmajluf(pattern.one, first_quantile=first_quantile, last_quantile=last_quantile, percent=NA, percent_min=NA, graph=graph)
+  gaillardmajluf_begin <- pheno.gaillardmajluf(pattern.one, first_quantile=NA, last_quantile=NA, percent=NA, percent_min=percent_min, graph=graph)
+  jemison <- pheno.jemison(pattern.one, graph=graph) 
+  johnson_corr <- pheno.johnson(pattern.one, interval=interval, corr=T, graph=graph) 
+  johnson_noncorr <- pheno.johnson(pattern.one, interval=interval, corr=F, graph=graph)
+  meng <- pheno.meng(pattern.one, percent=percent, graph=graph)
+  moe1 <- pheno.moe1(pattern.one, percent_min=percent_min, consecutive=consecutive, graph=graph)
+  moe2_one_cycle <- pheno.moe2(pattern.one, nb_cycles=1, CI=CI, resolution=resolution, graph=graph)$peak_sigmoid
+  owensmith1_max <- pheno.owensmith1(pattern.one, period=period, object="max", graph=graph)
+  owensmith1_min <- pheno.owensmith1(pattern.one, period=period, object="min", graph=graph)
+  owensmith2 <- pheno.owensmith2(pattern.one, period=period, graph=graph) 
+  paoli <- pheno.paoli(pattern.one, graph=graph)
+  riedmanmeng_uniform <- pheno.riedmanmeng(pattern.one, ref="uniform", origin="uncorr", graph=graph)
+  riedmanmeng_gaussian <- pheno.riedmanmeng(pattern.one, ref="gaussian", origin="corr", graph=graph)
+  rutberg <- pheno.rutberg(pattern.one, percent=percent, consecutive=consecutive, graph=graph)
+  sigouin <- pheno.sigouin(pattern.one, graph=graph) 
+  sinclair <- pheno.sinclair(pattern.one, graph=graph) 
+  skinner <- pheno.skinner(pattern.one, period=period, percent=percent, graph=graph)
+  zerbe <- pheno.zerbe(pattern.one, percent=percent, graph=graph) 
+  # Two years
+  berger <- pheno.berger(pattern.two, graph=graph)
+  diff_function <- pheno.diff(pattern.two, graph=graph)
+  moe2_two_cycles <- pheno.moe2(pattern.two, nb_cycles=2, CI=CI, resolution=resolution, graph=graph)$comp_peak_sigmoid_ci
+  pare <- pheno.pare(pattern.two, graph=graph) 
+  schaik <- pheno.schaik(pattern.two, graph=graph) 
+  whiting <- pheno.whiting(pattern.two, CI=CI, graph=graph)
+  # More than two years
+  adams <- pheno.adams(pattern, period=period, graph=graph)
+  bowyer <- pheno.bowyer(pattern, transformation=transformation, graph=graph)
+  hass <- pheno.hass(pattern, graph=graph)
+  linnell <- pheno.linnell(pattern, post_hoc=post_hoc, graph=graph)
+  loe <- pheno.loe(pattern, graph=graph)
+  millar <- pheno.millar(pattern, graph=graph)
+  paoli_synch <- pheno.paoli2(pattern, graph=graph)
+  
+  ### Fill in the data.frame of the outputs
+  fin_sum$pattern <- "BirthPhenology"
+  fin_sum$bart <- hass$k_squared
+  fin_sum$bgper <- bunnellyomtov$beginning_period
+  fin_sum$bgthper <- gaillardmajluf_begin$beginning_period_threshold
+  fin_sum$centre <- sigouin
+  fin_sum$cmano <- linnell$statistic_f
+  fin_sum$compmean <- whiting$comp_mean_ci
+  fin_sum$comppeaksig <- moe2_two_cycles
+  fin_sum$diffbgper <- diff_function$diff_beginning_period
+  fin_sum$diffmean <- loe$diff_mean_linear
+  fin_sum$diffmed <- diff_function$diff_median
+  fin_sum$diffmima <- owensmith2
+  fin_sum$diffpeak <- diff_function$diff_peak
+  fin_sum$diffperiod <- diff_function$diff_period
+  fin_sum$diffslin <- paoli_synch$diff_synchrony_linear
+  fin_sum$interq <- gaillardmajluf_quant$interquantiles_period
+  fin_sum$khi2 <- adams$x_squared
+  fin_sum$kolmogau <- riedmanmeng_gaussian$statistic_d
+  fin_sum$kolmomult <- schaik$statistic_d
+  fin_sum$kolmouni <- riedmanmeng_uniform$statistic_d
+  fin_sum$maxprop <- owensmith1_max$prop_births  
+  fin_sum$mean <- findlaylambin$mean 
+  fin_sum$meanlin <- loe$mean_linear_random 
+  fin_sum$meanmult <- millar$mean$mean_multi
+  fin_sum$meanvl <- campos$mean_vect_length
+  fin_sum$meanvo <- campos$mean_vector_orientation
+  fin_sum$med <- findlaylambin$median
+  fin_sum$medprob <- caughley$median_probit
+  fin_sum$minper <- meng$min_period_prop_births_given$length
+  fin_sum$minprop <- owensmith1_min$prop_births  
+  fin_sum$mode <- jemison$mode[1] # only take first peak (in case there are more than one)
+  fin_sum$mood <- berger$statistic_z
+  fin_sum$nbtu <- moe1$nb_tu_minimal_births
+  fin_sum$peaksig <- moe2_one_cycle
+  fin_sum$per <- bunnellyomtov$period 
+  fin_sum$pergau <- paoli
+  fin_sum$perhdr <- calabrese$period_hdr
+  fin_sum$permean <- millar$period$period_mean_multi  
+  fin_sum$pielou <- sinclair
+  fin_sum$propmed <- adamsjemison_median$prop_births
+  fin_sum$propmode <- adamsjemison_median$prop_births
+  fin_sum$rayleigh <- dibitetti$rayleigh
+  fin_sum$rutberg <- rutberg$rutberg
+  fin_sum$sd <- findlaylambin$standard_deviation 
+  fin_sum$sdprob <- caughley$standard_deviation_probit
+  fin_sum$skew <- findlaylambin$skewness_var
+  fin_sum$skinner <- skinner$skinner
+  fin_sum$slpcomp <- bowyer$slope_comparison
+  fin_sum$var <- johnson_noncorr  
+  fin_sum$varcor <- johnson_corr
+  fin_sum$varlin <- loe$seasonality_linear_random 
+  fin_sum$watson <- pare$statistic_f
+  fin_sum$zerbe <- zerbe$zerbe_perl$length_period
+  
+  ### Convert TRUE/FALSE to 1/0
+  for (i in 1:ncol(fin_sum)) {
+    fin_sum[ , i][fin_sum[ , i]==T] <- 1
+  }
+  
+  ### Outputs
+  return(fin_sum) # a data.frame with one row, and one column for each metric
 }
 
 ####################################################################################################################################################################
