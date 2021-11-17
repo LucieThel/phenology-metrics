@@ -27,7 +27,8 @@ working_dir <- "phenology-metrics-main"
 
 # FUNCTIONS ########################################################################################################################################################
 
-# MEAN (short name: mean), MEDIAN (short name: med), SKEWNESS (short name: skew), STANDARD DEVIATION (short name: sd), MEAN WEIGHTED, RANDOMNESS, SKEWNESS 2
+# MEAN (short name: mean), MEDIAN (short name: med), SKEWNESS VARIANCE (short name: skew), STANDARD DEVIATION (short name: sd), MEAN WEIGHTED, RANDOMNESS,
+# SKEWNESS 2
 pheno.findlaylambin <- function(pattern, graph=F) { 
   # DOCUMENTATION
   ## Description: basic description of the birth pattern (mean, weighted mean, median, standard deviation, two different skewness, randomness index).
@@ -71,7 +72,7 @@ pheno.findlaylambin <- function(pattern, graph=F) {
               randomness_index=r_index))
 }
 
-# VARIANCE (short name: var), VARIANCE CORR (short name: varcor)
+# VARIANCE (short name: var), VARIANCE CORRECTED (short name: varcor)
 pheno.johnson <- function(pattern, interval="check", corr=T, graph=F) { 
   # DOCUMENTATION
   ## Description: weighted variance corrected by the Sheppard method (generalized to irregularly sampled data or not) or not.
@@ -161,7 +162,7 @@ pheno.bunnellyomtov <- function(pattern, graph=F) {
               frequency=freq))
 }
 
-# NB TU MINIMAL BIRTHS (short name: nbtu)
+# NUMBER TIME UNIT MINIMAL BIRTHS (short name: nbtu)
 pheno.moe1 <- function(pattern, percent_min=1, consecutive=F, graph=F) {
   # DOCUMENTATION
   ## Description: number and position of time units with at least a certain percent of births.
@@ -241,7 +242,7 @@ pheno.sinclair <- function(pattern, graph=F) {
   return(pielou) #### pielou ####
 }
 
-# BEGINNING PERIOD THRESHOLD (short name: bgthper), INTERQUANTILES PERIOD Q (short name: interq), PROP BIRTHS INTERQUANTILE PERIOD Q
+# BEGINNING PERIOD THRESHOLD (short name: bgthper), INTERQUANTILES PERIOD QUANTILES (short name: interq), PROPORTION BIRTHS INTERQUANTILE PERIOD QUANTILES
 pheno.gaillardmajluf <- function(pattern, first_quantile=NA, last_quantile=NA, percent=NA, percent_min=NA, percent_min_end=NA, graph=F) { 
   # DOCUMENTATION
   ## Description: duration of the birth period between the two selected quantiles, number and proportion of births taking place during this period, start and end of
@@ -355,7 +356,7 @@ pheno.sigouin <- function(pattern, graph=F) {
   return(centre) #### centre ####
 }
 
-# MODE (short name: mode), PROP BIRTHS MODE
+# MODE (short name: mode), PROPORTION BIRTHS MODE
 pheno.jemison <- function(pattern, graph=F) {
   # DOCUMENTATION
   ## Description: time unit gathering the highest number of births and proportion of births during this time unit.
@@ -384,7 +385,7 @@ pheno.jemison <- function(pattern, graph=F) {
               prop_births_mode=prop))
 }
 
-# PROP BIRTHS AROUND MEDIAN (short name: propmed), PROP BIRTHS AROUND MODE (short name: propmode)
+# PROPORTION BIRTHS AROUND MEDIAN (short name: propmed), PROPORTION BIRTHS AROUND MODE (short name: propmode)
 pheno.adamsjemison <- function(pattern, reference="mode", period=3, graph=F) { 
   # DOCUMENTATION
   ## Description: proportion of births in a given period, centred around the median or the mode birth date.
@@ -434,7 +435,7 @@ pheno.adamsjemison <- function(pattern, reference="mode", period=3, graph=F) {
               upp_bound=borne_sup))
 }
 
-# PERIOD HDR (short name: perhdr)
+# PERIOD HIGH DENSITY REGION (short name: perhdr)
 pheno.calabrese <- function(pattern, percent=80, graph=F) {
   # DOCUMENTATION
   ## Description: time period when a certain percentage of births happened using high density regions.
@@ -484,7 +485,7 @@ pheno.calabrese <- function(pattern, percent=80, graph=F) {
               which_periods=periods))
 }
 
-# MAX PROP BIRTHS PERIOD GIVEN (short name: maxprop), MIN PROP BIRTHS PERIOD GIVEN (short name: minprop)
+# MAX PROPORTION BIRTHS PERIOD GIVEN (short name: maxprop), MIN PROPORTION BIRTHS PERIOD GIVEN (short name: minprop)
 pheno.owensmith1 <- function(pattern, period=2, object="max", graph=F) { 
   # DOCUMENTATION
   ## Description: proportion of births occurring during the period gathering the most and the least births.
@@ -529,7 +530,7 @@ pheno.owensmith1 <- function(pattern, period=2, object="max", graph=F) {
               period=period_object_birth))
 }
 
-# DIFF MIN MAX PROP BIRTHS (short name: diffmima)
+# DIFFERENCE MIN MAX PROPORTION BIRTHS (short name: diffmima)
 pheno.owensmith2 <- function(pattern, period=3, graph=F) { 
   # DOCUMENTATION
   ## Description: difference between the proportion of births occurring during the period gathering the most births and the least births.
@@ -638,7 +639,7 @@ pheno.skinner <- function(pattern, period=4, percent=75, graph=F) {
               summ=summ))
 }
 
-# MIN PERIOD PROP BIRTHS GIVEN (short name: minper)
+# MIN PERIOD PROPORTION BIRTHS GIVEN (short name: minper)
 pheno.meng <- function(pattern, percent=75, graph=F) { 
   # DOCUMENTATION
   ## Description: shortest period(s) gathering at least a certain percentage of births, if existing (otherwise, the complete birth period is returned).
@@ -682,7 +683,7 @@ pheno.meng <- function(pattern, percent=75, graph=F) {
               summ=sum_tri))
 }
 
-# ZERBE PERL (short name: zerbe)
+# ZERBE (short name: zerbe)
 pheno.zerbe <- function(pattern, percent=80, graph=F) { 
   # DOCUMENTATION
   ## Description: period length gathering a certain percentage of births around the mode of the distribution. Cf. Zerbe P., Clauss M., Codron D., Bingaman Lackey
@@ -946,7 +947,7 @@ pheno.riedmanmeng <- function(pattern, ref="uniform", origin="corr", graph=F) {
               statistic_d=kolmo$statistic))      #### according to the ref selected, returns kolmogau or kolmouni ####
 }
 
-# MEAN MEAN MULTI (short name: meanmult), PERIOD MEAN MULTI (short name: permean), BEGINNING PERIOD MEAN MULTI, MEDIAN MEAN MULTI
+# MEAN MEAN MULTI-YEAR (short name: meanmult), PERIOD MEAN MULTI-YEAR (short name: permean), BEGINNING PERIOD MEAN MULTI-YEAR, MEDIAN MEAN MULTI-YEAR
 pheno.millar <- function(pattern, graph=F) { 
   # DOCUMENTATION
   ## Description: mean date of the start of the birth periods, end of the birth periods, duration of the birth periods, mean birth dates, median birth dates, and
@@ -1024,7 +1025,7 @@ pheno.millar <- function(pattern, graph=F) {
                 standard_deviation_multi=sd_median_birth)))
 }
 
-# COMP MEAN CI (short name: compmean)
+# COMPARISON MEAN CI (short name: compmean)
 pheno.whiting <- function(pattern, CI=95, graph=F) { 
   # DOCUMENTATION
   ## Description: are the two mean birth dates similar? by checking if the confidence intervals overlap.
@@ -1152,7 +1153,7 @@ pheno.pare <- function(pattern, graph=F) {
               statistic_f=watson_test$statistic)) #### watson ####
 }
 
-# COMP PEAK SIGMOID CI (short name: comppeaksig), PEAK SIGMOID (short name: short name: peaksig)
+# COMPARISON PEAK SIGMOID CI (short name: comppeaksig), PEAK SIGMOID (short name: short name: peaksig)
 pheno.moe2 <- function(pattern, nb_cycles=2, CI=95, resolution=0.1, graph=F) {
   # DOCUMENTATION
   ## Description: when one reproduction cycle is given: peak birth date using a logistic regression on the birth distribution. When two reproductive cycles are
@@ -1291,7 +1292,7 @@ pheno.berger <- function(pattern, graph=F) {
               statistic_z=mood@statistic@teststatistic)) #### mood ####
 }
 
-# COMP MEAN ANOVA (short name: cmano)
+# COMPARISON MEAN ANOVA (short name: cmano)
 pheno.linnell <- function(pattern, post_hoc=T, graph=F) {
   # DOCUMENTATION
   ## Description: are the mean birth date similar between the two cycles? One way anova test.
@@ -1338,7 +1339,7 @@ pheno.linnell <- function(pattern, post_hoc=T, graph=F) {
               post_hoc=comp_moy2))
 }
 
-# DIFF MEAN LINEAR (short name: diffmean), MEAN LINEAR RANDOM (short name: meanlin), SEASONALITY LINEAR RANDOM (short name: varlin)
+# DIFFERENCE MEAN LINEAR (short name: diffmean), MEAN LINEAR RANDOM (short name: meanlin), VARIANCE MULTI-YEAR (short name: varlin)
 pheno.loe <- function(pattern, graph=F) {
   # DOCUMENTATION
   ## Description: mean birth date and inter-cycle variance of the birth distributions based on the predictions of a linear model with random effects. The function
@@ -1509,8 +1510,8 @@ pheno.bowyer <- function(pattern, transformation="log", graph=F) {
               cycles_different=unequal))
 }
 
-# DIFF BEGINNING PERIOD (short name: diffbgper), DIFF MEDIAN (short name: diffmed), DIFF PEAK (short name: diffpeak), DIFF PERIOD (short name: diffperiod),
-# DIFF FREQUENCY, DIFF MEAN
+# DIFFERENCE BEGINNING PERIOD (short name: diffbgper), DIFFERENCE MEDIAN (short name: diffmed), DIFFERENCE PEAK (short name: diffpeak), DIFFERENCE PERIOD (short
+# name: diffperiod), DIFFERENCE FREQUENCY, DIFFERENCE MEAN
 pheno.diff <- function(pattern, graph=F) {
   # DOCUMENTATION
   ## Description: absolute period length between 2 descriptors of birth distribution (first birth date, peak birth date, mean birth date, median birth date, period
@@ -1568,7 +1569,7 @@ pheno.diff <- function(pattern, graph=F) {
               diff_median=tab_int$diff_median))         #### diffmed ####
 }
 
-# KHI2 PROP BIRTHS MEDIAN (short name: khi2)
+# KHI2 PROPORTION BIRTHS MEDIAN (short name: khi2)
 pheno.adams <- function(pattern, period=3, graph=F) {
   # DOCUMENTATION
   ## Description: are the proportions of births around median birth date similar between the cycles? Khi 2 test of independence (H0: the proportion of births around
@@ -1617,7 +1618,7 @@ pheno.adams <- function(pattern, period=3, graph=F) {
               x_squared=khi2$statistic))              #### khi2 ####
 }
 
-# KOLMOGOROV SMIRNOV MULTI (short name: kolmomult)
+# KOLMOGOROV SMIRNOV MULTI-YEAR (short name: kolmomult)
 pheno.schaik <- function(pattern, graph=F) { 
   # DOCUMENTATION
   ## Description: are the birth distributions similar between the two cycles? Kolmogorov Smirnov test (H0: the distributions are identical).
@@ -1658,7 +1659,7 @@ pheno.schaik <- function(pattern, graph=F) {
               statistic_d=kolmo_test$statistic)) #### kolmomult ####
 }
 
-# DIFF SYNCHRONY LINEAR (short name: diffslin)
+# DIFFERENCE SYNCHRONY LINEAR (short name: diffslin)
 pheno.paoli2 <- function(pattern, graph=F) {
   # DOCUMENTATION
   ## Description: is there a trend in the evolution of birth period duration across time? using a linear regression.
