@@ -10,7 +10,7 @@
 ### ARGUMENTS
 ## General parameters:
 # - births_distrib : type of the distribution; "peaks" = births are drawn from a normal law; "random" = births are randomly distributed; "skewnorm" = births are
-# drawn from a skewd normal distribution; "cauchy" = births are drawn from a Cauchy distribution (default="peaks")
+# drawn from a skewed normal distribution; "cauchy" = births are drawn from a Cauchy distribution (default="peaks")
 # - format : format of the output when more than one reproductive cycle is generated, "row" = by lines, "col" = by columns (default="col")
 # - graph : plot or not the graph associated to the simulations (default=FALSE)
 # - graph_format : "ind" = represents the output cycle by cycle on separate graphs, "sup" = superimposes all the reproductive cycles on the same graph (default=

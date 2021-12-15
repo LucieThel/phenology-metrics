@@ -6,18 +6,18 @@
 
 ### DESCRIPTION
 # Code of the different metrics used to evaluate timing, synchrony, rhythmicity and regularity of the phenology of births in the large herbivores literature.
-# Each function is named after the main authors providing the metric. As some metrics are very similar and necessitate the same first steps of coding, each function
+# Each function is named after the name of the metric(s). As some metrics are very similar and necessitate the same first steps of coding, each function
 # can return the result of one or several metrics. The complete name (capital letters) and the short name (lowercase letters between brackets) of each metric
-# calculated by a given function is listed in the title of the function. For each metric, the corresponding output of the function is also identified according to
-# the same nomenclature (output followed by: #### shortname ####). Thus, it is possible to quickly spot the output of a given metric in the code using the drop-down
-# menu in the RStudio interface. The other outputs returned by a function can either be additional metrics we though useful but not employed in the large herbivores
-# literature, or complementary outputs associated with a given metric, such as confidence intervals.
+# calculated by a given function are listed in the title of the function too. For each metric, the corresponding output of the function is also identified according
+# to the same nomenclature (output followed by: #### shortname ####). Thus, it is possible to quickly spot the output of a given metric in the code using the
+# drop-down menu in the RStudio interface. The other outputs returned by a function can either be additional metrics we though useful but not employed in the large
+# herbivores literature, or complementary outputs associated with a given metric, such as confidence intervals.
 # One can find the generic function used in the associated article, which returns one output for each metric for a given phenology of births at the same time.
 
 ### ARGUMENTS - VALUES - DETAILS
 # For each function, a "graph" argument allows to choose if a plot should be returned or not.
-# The functions pheno.calabrese(), pheno.caughley(), pheno.bowyer() and pheno.riedmanmeng() led to code adjustments and could properly work only in the context of
-# our analysis.
+# The functions pheno.perhdr(), pheno.medprob.sdprob(), pheno.slpcomp() and pheno.kolmogau.kolmouni() led to code adjustments and could properly work only in the
+# context of our analysis.
 # The function pheno.zerbe() calls Perl, so necessitates Perl (run with perl 5, version 26, subversion 1 (v5.26.1)) to be installed on the computer running the
 # function. An intermediary file is created, so a working directory should be specified too.
 # See details in each function.
@@ -29,7 +29,7 @@ working_dir <- "phenology-metrics-main"
 
 # MEAN (short name: mean), MEDIAN (short name: med), SKEWNESS VARIANCE (short name: skew), STANDARD DEVIATION (short name: sd), MEAN WEIGHTED, RANDOMNESS,
 # SKEWNESS 2
-pheno.findlaylambin <- function(pattern, graph=F) { 
+pheno.mean.med.skew.sd <- function(pattern, graph=F) { 
   # DOCUMENTATION
   ## Description: basic description of the birth pattern (mean, weighted mean, median, standard deviation, two different skewness, randomness index).
   ## Arguments: 
@@ -73,7 +73,7 @@ pheno.findlaylambin <- function(pattern, graph=F) {
 }
 
 # VARIANCE (short name: var), VARIANCE CORRECTED (short name: varcor)
-pheno.johnson <- function(pattern, interval="check", corr=T, graph=F) { 
+pheno.var.varcor <- function(pattern, interval="check", corr=T, graph=F) { 
   # DOCUMENTATION
   ## Description: weighted variance corrected by the Sheppard method (generalized to irregularly sampled data or not) or not.
   ## Arguments: 
@@ -130,7 +130,7 @@ pheno.johnson <- function(pattern, interval="check", corr=T, graph=F) {
 }
 
 # BEGINNING PERIOD (short name: bgper), PERIOD (short name: per), FREQUENCY
-pheno.bunnellyomtov <- function(pattern, graph=F) {
+pheno.bgper.per <- function(pattern, graph=F) {
   # DOCUMENTATION
   ## Description: first and last date of birth, birth period length, birth frequency.
   ## Arguments: 
@@ -163,7 +163,7 @@ pheno.bunnellyomtov <- function(pattern, graph=F) {
 }
 
 # NUMBER TIME UNIT MINIMAL BIRTHS (short name: nbtu)
-pheno.moe1 <- function(pattern, percent_min=1, consecutive=F, graph=F) {
+pheno.nbtu <- function(pattern, percent_min=1, consecutive=F, graph=F) {
   # DOCUMENTATION
   ## Description: number and position of time units with at least a certain percent of births.
   ## Arguments: 
@@ -216,7 +216,7 @@ pheno.moe1 <- function(pattern, percent_min=1, consecutive=F, graph=F) {
 }
 
 # PIELOU (short name: pielou)
-pheno.sinclair <- function(pattern, graph=F) { 
+pheno.pielou <- function(pattern, graph=F) { 
   # DOCUMENTATION
   ## Description: evenness index of the distribution of births.
   ## Arguments: 
@@ -243,7 +243,7 @@ pheno.sinclair <- function(pattern, graph=F) {
 }
 
 # BEGINNING PERIOD THRESHOLD (short name: bgthper), INTERQUANTILES PERIOD QUANTILES (short name: interq), PROPORTION BIRTHS INTERQUANTILE PERIOD QUANTILES
-pheno.gaillardmajluf <- function(pattern, first_quantile=NA, last_quantile=NA, percent=NA, percent_min=NA, percent_min_end=NA, graph=F) { 
+pheno.bgthper.interq <- function(pattern, first_quantile=NA, last_quantile=NA, percent=NA, percent_min=NA, percent_min_end=NA, graph=F) { 
   # DOCUMENTATION
   ## Description: duration of the birth period between the two selected quantiles, number and proportion of births taking place during this period, start and end of
   # the birth period when a certain percentage of births have been exceeded, duration of the period gathering a certain percentage of births based on the detection
@@ -329,7 +329,7 @@ pheno.gaillardmajluf <- function(pattern, first_quantile=NA, last_quantile=NA, p
 }
 
 # CENTRE (short name: centre)
-pheno.sigouin <- function(pattern, graph=F) { 
+pheno.centre <- function(pattern, graph=F) { 
   # DOCUMENTATION
   ## Description: centre of the birth distribution (between first and last birth).
   ## Arguments: 
@@ -357,7 +357,7 @@ pheno.sigouin <- function(pattern, graph=F) {
 }
 
 # MODE (short name: mode), PROPORTION BIRTHS MODE
-pheno.jemison <- function(pattern, graph=F) {
+pheno.mode <- function(pattern, graph=F) {
   # DOCUMENTATION
   ## Description: time unit gathering the highest number of births and proportion of births during this time unit.
   ## Arguments: 
@@ -386,7 +386,7 @@ pheno.jemison <- function(pattern, graph=F) {
 }
 
 # PROPORTION BIRTHS AROUND MEDIAN (short name: propmed), PROPORTION BIRTHS AROUND MODE (short name: propmode)
-pheno.adamsjemison <- function(pattern, reference="mode", period=3, graph=F) { 
+pheno.propmed.propmode <- function(pattern, reference="mode", period=3, graph=F) { 
   # DOCUMENTATION
   ## Description: proportion of births in a given period, centred around the median or the mode birth date.
   ## Arguments: 
@@ -436,7 +436,7 @@ pheno.adamsjemison <- function(pattern, reference="mode", period=3, graph=F) {
 }
 
 # PERIOD HIGH DENSITY REGION (short name: perhdr)
-pheno.calabrese <- function(pattern, percent=80, graph=F) {
+pheno.perhdr <- function(pattern, percent=80, graph=F) {
   # DOCUMENTATION
   ## Description: time period when a certain percentage of births happened using high density regions.
   ## Arguments: 
@@ -486,7 +486,7 @@ pheno.calabrese <- function(pattern, percent=80, graph=F) {
 }
 
 # MAX PROPORTION BIRTHS PERIOD GIVEN (short name: maxprop), MIN PROPORTION BIRTHS PERIOD GIVEN (short name: minprop)
-pheno.owensmith1 <- function(pattern, period=2, object="max", graph=F) { 
+pheno.maxprop.minprop <- function(pattern, period=2, object="max", graph=F) { 
   # DOCUMENTATION
   ## Description: proportion of births occurring during the period gathering the most and the least births.
   ## Arguments: 
@@ -531,7 +531,7 @@ pheno.owensmith1 <- function(pattern, period=2, object="max", graph=F) {
 }
 
 # DIFFERENCE MIN MAX PROPORTION BIRTHS (short name: diffmima)
-pheno.owensmith2 <- function(pattern, period=3, graph=F) { 
+pheno.diffmima <- function(pattern, period=3, graph=F) { 
   # DOCUMENTATION
   ## Description: difference between the proportion of births occurring during the period gathering the most births and the least births.
   ## Arguments: 
@@ -544,8 +544,8 @@ pheno.owensmith2 <- function(pattern, period=3, graph=F) {
   colnames(pattern) <- c("unit", "nb_births")
   
   # FUNCTION
-  owen_max <- pheno.owensmith1(pattern=pattern, period=period, object="max")
-  owen_min <- pheno.owensmith1(pattern=pattern, period=period, object="min")
+  owen_max <- pheno.maxprop.minprop(pattern=pattern, period=period, object="max")
+  owen_min <- pheno.maxprop.minprop(pattern=pattern, period=period, object="min")
   differ <- owen_max$prop_births-owen_min$prop_births
   
   # PLOT
@@ -558,7 +558,7 @@ pheno.owensmith2 <- function(pattern, period=3, graph=F) {
 }
 
 # MEAN VECTOR LENGTH (short name: meanvl), MEAN VECTOR ORIENTATION (short name: meanvo)
-pheno.campos <- function(pattern, graph=F) {
+pheno.meanvl.meanvo <- function(pattern, graph=F) {
   # DOCUMENTATION
   ## Description: mean vector orientation and mean vector length of the births distribution, once converted into cicular data (radians).
   ## Arguments: 
@@ -640,7 +640,7 @@ pheno.skinner <- function(pattern, period=4, percent=75, graph=F) {
 }
 
 # MIN PERIOD PROPORTION BIRTHS GIVEN (short name: minper)
-pheno.meng <- function(pattern, percent=75, graph=F) { 
+pheno.minper <- function(pattern, percent=75, graph=F) { 
   # DOCUMENTATION
   ## Description: shortest period(s) gathering at least a certain percentage of births, if existing (otherwise, the complete birth period is returned).
   ## Arguments: 
@@ -787,7 +787,7 @@ pheno.rutberg <- function(pattern, percent=80, consecutive=F, graph=F) {
 }
 
 # MEDIAN PROBIT (short name: medprob), STANDARD DEVIATION PROBIT (short name: sdprob)
-pheno.caughley <- function(pattern, graph=F) { 
+pheno.medprob.sdprob <- function(pattern, graph=F) { 
   # DOCUMENTATION
   ## Description: median birth date and standard error of the birth distribution via probit analysis.
   ## Arguments: 
@@ -829,7 +829,7 @@ pheno.caughley <- function(pattern, graph=F) {
 }
 
 # PERIOD GAUSSIAN (short name: pergau)
-pheno.paoli <- function(pattern, graph=F) {
+pheno.pergau <- function(pattern, graph=F) {
   # DOCUMENTATION
   ## Description: duration of the birth period using the formula 4*standard error.
   ## Arguments: 
@@ -860,7 +860,7 @@ pheno.paoli <- function(pattern, graph=F) {
 }
 
 # RAYLEIGH (short name: rayleigh)
-pheno.dibitetti <- function(pattern, graph=F) {
+pheno.rayleigh <- function(pattern, graph=F) {
   # DOCUMENTATION
   ## Description: is the distribution unimodal? rayleigh test (H0: random distribution, H1: unimodal distribution).
   ## Arguments: 
@@ -898,7 +898,7 @@ pheno.dibitetti <- function(pattern, graph=F) {
 }
 
 # KOLMOGOROV SMIRNOV GAUSSIAN (short name: kolmogau), KOLMOGOROV SMIRNOV UNIFORM (short name: kolmouni)
-pheno.riedmanmeng <- function(pattern, ref="uniform", origin="corr", graph=F) { 
+pheno.kolmogau.kolmouni <- function(pattern, ref="uniform", origin="corr", graph=F) { 
   # DOCUMENTATION
   ## Description: is the birth distribution similar to a normal or a uniform distribution? Kolmogorov Smirnov test (H0: the distributions are similar).
   ## Arguments: 
@@ -948,7 +948,7 @@ pheno.riedmanmeng <- function(pattern, ref="uniform", origin="corr", graph=F) {
 }
 
 # MEAN MEAN MULTI-YEAR (short name: meanmult), PERIOD MEAN MULTI-YEAR (short name: permean), BEGINNING PERIOD MEAN MULTI-YEAR, MEDIAN MEAN MULTI-YEAR
-pheno.millar <- function(pattern, graph=F) { 
+pheno.meanmult.permean <- function(pattern, graph=F) { 
   # DOCUMENTATION
   ## Description: mean date of the start of the birth periods, end of the birth periods, duration of the birth periods, mean birth dates, median birth dates, and
   # their standard deviation.
@@ -976,8 +976,8 @@ pheno.millar <- function(pattern, graph=F) {
     j <- j+1
     first_birth[j] <- which(pattern$nb_births[pattern$cycle==i]>0)[1] 
     last_birth[j] <- which(pattern$nb_births[pattern$cycle==i]>0)[length(which(pattern$nb_births[pattern$cycle==i]>0))] 
-    mean_birth[j] <- pheno.findlaylambin(pattern[pattern$cycle==i, c("unit", "nb_births")])$mean
-    median_birth[j] <- pheno.findlaylambin(pattern[pattern$cycle==i, c("unit", "nb_births")])$median
+    mean_birth[j] <- pheno.mean.med.skew.sd(pattern[pattern$cycle==i, c("unit", "nb_births")])$mean
+    median_birth[j] <- pheno.mean.med.skew.sd(pattern[pattern$cycle==i, c("unit", "nb_births")])$median
     period[j] <- last_birth[j]-first_birth[j]+1
   }
   mean_first_birth <- mean(first_birth, na.rm=T)
@@ -1026,7 +1026,7 @@ pheno.millar <- function(pattern, graph=F) {
 }
 
 # COMPARISON MEAN CI (short name: compmean)
-pheno.whiting <- function(pattern, CI=95, graph=F) { 
+pheno.compmean <- function(pattern, CI=95, graph=F) { 
   # DOCUMENTATION
   ## Description: are the two mean birth dates similar? by checking if the confidence intervals overlap.
   ## Arguments: 
@@ -1054,8 +1054,8 @@ pheno.whiting <- function(pattern, CI=95, graph=F) {
   # FUNCTION
   for (i in 1:2) { # find start, end, mean and median birth date and the birth period for both distributions
     data_int <- data.frame(mean=NA, sd=NA, low=NA, up=NA) 
-    data_int$mean <- pheno.findlaylambin(pattern.list[[i]])$mean
-    data_int$sd <- pheno.findlaylambin(pattern.list[[i]])$standard_deviation
+    data_int$mean <- pheno.mean.med.skew.sd(pattern.list[[i]])$mean
+    data_int$sd <- pheno.mean.med.skew.sd(pattern.list[[i]])$standard_deviation
     data_int$up <- data_int$mean+(qnorm(ref)*(data_int$sd/sqrt(sum(pattern.list[[i]]$nb_births))))
     data_int$low <- data_int$mean-(qnorm(ref)*(data_int$sd/sqrt(sum(pattern.list[[i]]$nb_births))))
     if (data_int$low<0) {
@@ -1102,7 +1102,7 @@ pheno.whiting <- function(pattern, CI=95, graph=F) {
 }
 
 # WATSON WILLIAMS (short name: watson)
-pheno.pare <- function(pattern, graph=F) {
+pheno.watson <- function(pattern, graph=F) {
   # DOCUMENTATION
   ## Description: are the mean birth dates similar between the two birth distributions. Watson-Williams test (H0 : the means are similar).
   ## Arguments: 
@@ -1154,7 +1154,7 @@ pheno.pare <- function(pattern, graph=F) {
 }
 
 # COMPARISON PEAK SIGMOID CI (short name: comppeaksig), PEAK SIGMOID (short name: short name: peaksig)
-pheno.moe2 <- function(pattern, nb_cycles=2, CI=95, resolution=0.1, graph=F) {
+pheno.comppeaksig.peaksig <- function(pattern, nb_cycles=2, CI=95, resolution=0.1, graph=F) {
   # DOCUMENTATION
   ## Description: when one reproduction cycle is given: peak birth date using a logistic regression on the birth distribution. When two reproductive cycles are
   # given: evaluate the level of consistency of the peak birth date.
@@ -1245,7 +1245,7 @@ pheno.moe2 <- function(pattern, nb_cycles=2, CI=95, resolution=0.1, graph=F) {
 }
 
 # MOOD (short name: mood)
-pheno.berger <- function(pattern, graph=F) { 
+pheno.mood <- function(pattern, graph=F) { 
   # DOCUMENTATION
   ## Description: are the median birth date similar between the two cycles? Mood test (H0: the medians are identical).
   ## Arguments: 
@@ -1276,15 +1276,18 @@ pheno.berger <- function(pattern, graph=F) {
   
   # PLOT
   if (graph==T) {
+    pattern_cum1 <- cumsum(pattern$nb_births[pattern$cycle==all_cycles[1]])
+    pattern_cum2 <- cumsum(pattern$nb_births[pattern$cycle==all_cycles[2]])
+    med_birth1 <- which(pattern_cum1>=sum(pattern$nb_births[pattern$cycle==all_cycles[1]])/2)[1]
+    med_birth2 <- which(pattern_cum2>=sum(pattern$nb_births[pattern$cycle==all_cycles[2]])/2)[1]
     par(mfrow=c(2, 1))
     plot(pattern$nb_births[pattern$cycle==all_cycles[1]]~pattern$unit[pattern$cycle==all_cycles[1]], xlab="Time", ylab="Nb births", type="l")
-    abline(v=pheno.findlaylambin(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$median, col="blue")
-    text(pheno.findlaylambin(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$median, 
-         max(pattern$nb_births[pattern$cycle==all_cycles[1]])-1, "Median birth date", col="blue")
+    abline(v=med_birth1, col="blue")
+    text(med_birth1, max(pattern$nb_births[pattern$cycle==all_cycles[1]])-1, "Median birth date", col="blue")
     plot(pattern$nb_births[pattern$cycle==all_cycles[2]]~pattern$unit[pattern$cycle==all_cycles[2]], xlab="Time", ylab="Nb births", type="l")
-    abline(v=pheno.findlaylambin(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$median, col="blue")    
-    text(pheno.findlaylambin(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$median, 
-         max(pattern$nb_births[pattern$cycle==all_cycles[2]])-1, "Median birth date", col="blue")
+    abline(v=med_birth2, col="blue")    
+    text(med_birth2, max(pattern$nb_births[pattern$cycle==all_cycles[2]])-1, "Median birth date", col="blue")
+    par(mfrow=c(1, 1))
   }
   
   return(list(mood=signif, 
@@ -1293,7 +1296,7 @@ pheno.berger <- function(pattern, graph=F) {
 }
 
 # COMPARISON MEAN ANOVA (short name: cmano)
-pheno.linnell <- function(pattern, post_hoc=T, graph=F) {
+pheno.cmano <- function(pattern, post_hoc=T, graph=F) {
   # DOCUMENTATION
   ## Description: are the mean birth date similar between the two cycles? One way anova test.
   ## Arguments: 
@@ -1340,7 +1343,7 @@ pheno.linnell <- function(pattern, post_hoc=T, graph=F) {
 }
 
 # DIFFERENCE MEAN LINEAR (short name: diffmean), MEAN LINEAR RANDOM (short name: meanlin), VARIANCE MULTI-YEAR (short name: varlin)
-pheno.loe <- function(pattern, graph=F) {
+pheno.diffmean.meanlin.varlin <- function(pattern, graph=F) {
   # DOCUMENTATION
   ## Description: mean birth date and inter-cycle variance of the birth distributions based on the predictions of a linear model with random effects. The function
   # also estimates the evolution of mean birth date through time using a linear regression.
@@ -1395,7 +1398,7 @@ pheno.loe <- function(pattern, graph=F) {
 }
 
 # BARTLETT (short name: bart)
-pheno.hass <- function(pattern, graph=F) {
+pheno.bart <- function(pattern, graph=F) {
   # DOCUMENTATION
   ## Description: are the birth distribution variances similar between the cycles? Bartlett test (H0: the variances are the same).
   ## Arguments: 
@@ -1435,7 +1438,7 @@ pheno.hass <- function(pattern, graph=F) {
 }
 
 # SLOPE COMPARISON (short name: slpcomp)
-pheno.bowyer <- function(pattern, transformation="log", graph=F) {
+pheno.slpcomp <- function(pattern, transformation="log", graph=F) {
   # DOCUMENTATION
   ## Description: are the slope coefficient similar between the cycles? using the predictions of a linear model and t test (H0: the medians are identical).
   ## Arguments: 
@@ -1512,7 +1515,7 @@ pheno.bowyer <- function(pattern, transformation="log", graph=F) {
 
 # DIFFERENCE BEGINNING PERIOD (short name: diffbgper), DIFFERENCE MEDIAN (short name: diffmed), DIFFERENCE PEAK (short name: diffpeak), DIFFERENCE PERIOD (short
 # name: diffperiod), DIFFERENCE FREQUENCY, DIFFERENCE MEAN
-pheno.diff <- function(pattern, graph=F) {
+pheno.diffbgper.diffmed.diffpeak.diffperiod <- function(pattern, graph=F) {
   # DOCUMENTATION
   ## Description: absolute period length between 2 descriptors of birth distribution (first birth date, peak birth date, mean birth date, median birth date, period
   # length, frequency of the birth distribution)
@@ -1530,33 +1533,33 @@ pheno.diff <- function(pattern, graph=F) {
   tab_int <- data.frame(diff_begin=NA, diff_peak=NA, diff_period=NA, diff_freq=NA, diff_mean=NA, diff_median=NA)
   
   # FUNCTION
-  tab_int$diff_begin <- abs(pheno.bunnellyomtov(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$beginning_period-
-                              pheno.bunnellyomtov(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$beginning_period)
-  tab_int$diff_peak <- abs(pheno.jemison(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$mode[1]-
-                             pheno.jemison(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$mode[1])
-  tab_int$diff_period <- abs(pheno.bunnellyomtov(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$period-
-                               pheno.bunnellyomtov(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$period)
-  tab_int$diff_freq <- abs(pheno.bunnellyomtov(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$frequency-
-                             pheno.bunnellyomtov(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$frequency)
-  tab_int$diff_mean <- abs(pheno.findlaylambin(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$mean-
-                             pheno.findlaylambin(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$mean)
-  tab_int$diff_median <- abs(pheno.findlaylambin(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$median-
-                               pheno.findlaylambin(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$median)
+  tab_int$diff_begin <- abs(pheno.bgper.per(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$beginning_period-
+                              pheno.bgper.per(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$beginning_period)
+  tab_int$diff_peak <- abs(pheno.mode(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$mode[1]-
+                             pheno.mode(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$mode[1])
+  tab_int$diff_period <- abs(pheno.bgper.per(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$period-
+                               pheno.bgper.per(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$period)
+  tab_int$diff_freq <- abs(pheno.bgper.per(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$frequency-
+                             pheno.bgper.per(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$frequency)
+  tab_int$diff_mean <- abs(pheno.mean.med.skew.sd(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$mean-
+                             pheno.mean.med.skew.sd(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$mean)
+  tab_int$diff_median <- abs(pheno.mean.med.skew.sd(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$median-
+                               pheno.mean.med.skew.sd(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$median)
   
   # PLOT
   if (graph==T) {
     par(mfrow=c(2, 1))
     plot(pattern$nb_births[pattern$cycle==all_cycles[1]]~pattern$unit[pattern$cycle==all_cycles[1]], xlab="Time", ylab="Nb births", type="l")
-    abline(v=c(pheno.bunnellyomtov(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$beginning_period, 
-               pheno.jemison(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$mode[1],
-               pheno.findlaylambin(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$mean,
-               pheno.findlaylambin(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$median), col=c("purple", "green", "brown", 
+    abline(v=c(pheno.bgper.per(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$beginning_period, 
+               pheno.mode(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$mode[1],
+               pheno.mean.med.skew.sd(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$mean,
+               pheno.mean.med.skew.sd(pattern[pattern$cycle==all_cycles[1], c("unit", "nb_births")])$median), col=c("purple", "green", "brown", 
                                                                                                                  "blue"))
     plot(pattern$nb_births[pattern$cycle==all_cycles[2]]~pattern$unit[pattern$cycle==all_cycles[2]], xlab="Time", ylab="Nb births", type="l")
-    abline(v=c(pheno.bunnellyomtov(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$beginning_period, 
-               pheno.jemison(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$mode[1],
-               pheno.findlaylambin(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$mean,
-               pheno.findlaylambin(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$median), col=c("purple", "green", "brown", 
+    abline(v=c(pheno.bgper.per(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$beginning_period, 
+               pheno.mode(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$mode[1],
+               pheno.mean.med.skew.sd(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$mean,
+               pheno.mean.med.skew.sd(pattern[pattern$cycle==all_cycles[2], c("unit", "nb_births")])$median), col=c("purple", "green", "brown", 
                                                                                                                  "blue"))
   }
   
@@ -1570,7 +1573,7 @@ pheno.diff <- function(pattern, graph=F) {
 }
 
 # KHI2 PROPORTION BIRTHS MEDIAN (short name: khi2)
-pheno.adams <- function(pattern, period=3, graph=F) {
+pheno.khi2 <- function(pattern, period=3, graph=F) {
   # DOCUMENTATION
   ## Description: are the proportions of births around median birth date similar between the cycles? Khi 2 test of independence (H0: the proportion of births around
   # median birth date is independent from the cycle).
@@ -1589,7 +1592,7 @@ pheno.adams <- function(pattern, period=3, graph=F) {
   # FUNCTION
   for (i in 1:length(all_cycles)) {
     # proportion of births around the median birth date
-    mat.med[1, i] <- pheno.adamsjemison(pattern[pattern$cycle==all_cycles[i], c("unit", "nb_births")], period=period, graph=F)$nb_births
+    mat.med[1, i] <- pheno.propmed.propmode(pattern[pattern$cycle==all_cycles[i], c("unit", "nb_births")], period=period, graph=F)$nb_births
     # proportion of births out from the period around median birth date
     mat.med[2, i] <- sum(pattern$nb_births[pattern$cycle==all_cycles[i]], na.rm=T)-mat.med[1, i]
   }
@@ -1619,7 +1622,7 @@ pheno.adams <- function(pattern, period=3, graph=F) {
 }
 
 # KOLMOGOROV SMIRNOV MULTI-YEAR (short name: kolmomult)
-pheno.schaik <- function(pattern, graph=F) { 
+pheno.kolmomult <- function(pattern, graph=F) { 
   # DOCUMENTATION
   ## Description: are the birth distributions similar between the two cycles? Kolmogorov Smirnov test (H0: the distributions are identical).
   ## Arguments: 
@@ -1660,14 +1663,14 @@ pheno.schaik <- function(pattern, graph=F) {
 }
 
 # DIFFERENCE SYNCHRONY LINEAR (short name: diffslin)
-pheno.paoli2 <- function(pattern, graph=F) {
+pheno.diffslin <- function(pattern, graph=F) {
   # DOCUMENTATION
   ## Description: is there a trend in the evolution of birth period duration across time? using a linear regression.
   ## Arguments:
   # pattern = a data frame with three columns (col1=first time unit, col2=second time unit, col3=number of births).
   ## Values: coefficient of determination of the relationship between birth period length and time, slope coefficient.
-  ## Details: works with unimodal distribution. The function uses pheno.paoli(). The coefficient of determination allows to check if there is a trend or not, and if
-  # the slope coefficient can be interpreted or not (if there is no trend, the slope coefficient is meaningless).
+  ## Details: works with unimodal distribution. The function uses pheno.pergau(). The coefficient of determination allows to check if there is a trend or not, and
+  # if the slope coefficient can be interpreted or not (if there is no trend, the slope coefficient is meaningless).
   
   # INITIALISATIONS
   colnames(pattern) <- c("cycle", "unit", "nb_births")
@@ -1676,7 +1679,7 @@ pheno.paoli2 <- function(pattern, graph=F) {
   # FUNCTION
   patternbis <- data.frame(cycle=all_cycles, synchrony=NA)
   for (i in 1:length(all_cycles)) {
-    patternbis$synchrony[i] <- pheno.paoli(pattern[pattern$cycle==all_cycles[i], c("unit", "nb_births")])
+    patternbis$synchrony[i] <- pheno.pergau(pattern[pattern$cycle==all_cycles[i], c("unit", "nb_births")])
   }
   mod <- lm(synchrony~cycle, data=patternbis)
   patternbis$pred <- predict(mod, type="response") 
@@ -1718,102 +1721,102 @@ metrics.test <- function(pattern, graph=F, interval="check", percent_min=1, cons
   
   ### Calculate the value of each metric for the phenology of births tested
   # One year
-  adamsjemison_mode <- pheno.adamsjemison(pattern.one, reference="mode", period=period, graph=graph) 
-  adamsjemison_median <- pheno.adamsjemison(pattern.one, reference="median", period=period, graph=graph) 
-  bunnellyomtov <- pheno.bunnellyomtov(pattern.one, graph=graph)
-  calabrese <- pheno.calabrese(pattern.one, percent=percent, graph=graph)
-  campos <- pheno.campos(pattern.one, graph=graph)
-  caughley <- pheno.caughley(pattern.one, graph=graph)
-  dibitetti <- pheno.dibitetti(pattern.one, graph=graph) 
-  findlaylambin <- pheno.findlaylambin(pattern.one, graph=graph) 
-  gaillardmajluf_quant <- pheno.gaillardmajluf(pattern.one, first_quantile=first_quantile, last_quantile=last_quantile, percent=NA, percent_min=NA, graph=graph)
-  gaillardmajluf_begin <- pheno.gaillardmajluf(pattern.one, first_quantile=NA, last_quantile=NA, percent=NA, percent_min=percent_min, graph=graph)
-  jemison <- pheno.jemison(pattern.one, graph=graph) 
-  johnson_corr <- pheno.johnson(pattern.one, interval=interval, corr=T, graph=graph) 
-  johnson_noncorr <- pheno.johnson(pattern.one, interval=interval, corr=F, graph=graph)
-  meng <- pheno.meng(pattern.one, percent=percent, graph=graph)
-  moe1 <- pheno.moe1(pattern.one, percent_min=percent_min, consecutive=consecutive, graph=graph)
-  moe2_one_cycle <- pheno.moe2(pattern.one, nb_cycles=1, CI=CI, resolution=resolution, graph=graph)$peak_sigmoid
-  owensmith1_max <- pheno.owensmith1(pattern.one, period=period, object="max", graph=graph)
-  owensmith1_min <- pheno.owensmith1(pattern.one, period=period, object="min", graph=graph)
-  owensmith2 <- pheno.owensmith2(pattern.one, period=period, graph=graph) 
-  paoli <- pheno.paoli(pattern.one, graph=graph)
-  riedmanmeng_uniform <- pheno.riedmanmeng(pattern.one, ref="uniform", origin="uncorr", graph=graph)
-  riedmanmeng_gaussian <- pheno.riedmanmeng(pattern.one, ref="gaussian", origin="corr", graph=graph)
+  propmed_propmode_mode <- pheno.propmed.propmode(pattern.one, reference="mode", period=period, graph=graph) 
+  propmed_propmode_median <- pheno.propmed.propmode(pattern.one, reference="median", period=period, graph=graph) 
+  bgper_per <- pheno.bgper.per(pattern.one, graph=graph)
+  perhdr <- pheno.perhdr(pattern.one, percent=percent, graph=graph)
+  meanvl_meanvo <- pheno.meanvl.meanvo(pattern.one, graph=graph)
+  medprob_sdprob <- pheno.medprob.sdprob(pattern.one, graph=graph)
+  rayleigh <- pheno.rayleigh(pattern.one, graph=graph) 
+  mean_med_skew_sd <- pheno.mean.med.skew.sd(pattern.one, graph=graph) 
+  bgthper_interq_quant <- pheno.bgthper.interq(pattern.one, first_quantile=first_quantile, last_quantile=last_quantile, percent=NA, percent_min=NA, graph=graph)
+  bgthper_interq_begin <- pheno.bgthper.interq(pattern.one, first_quantile=NA, last_quantile=NA, percent=NA, percent_min=percent_min, graph=graph)
+  mode <- pheno.mode(pattern.one, graph=graph) 
+  var_corr <- pheno.var.varcor(pattern.one, interval=interval, corr=T, graph=graph) 
+  var_noncorr <- pheno.var.varcor(pattern.one, interval=interval, corr=F, graph=graph)
+  minper <- pheno.minper(pattern.one, percent=percent, graph=graph)
+  nbtu <- pheno.nbtu(pattern.one, percent_min=percent_min, consecutive=consecutive, graph=graph)
+  comppeaksig_peaksig_one_cycle <- pheno.comppeaksig.peaksig(pattern.one, nb_cycles=1, CI=CI, resolution=resolution, graph=graph)$peak_sigmoid
+  maxprop_minprop_max <- pheno.maxprop.minprop(pattern.one, period=period, object="max", graph=graph)
+  maxprop_minprop_min <- pheno.maxprop.minprop(pattern.one, period=period, object="min", graph=graph)
+  diffmima <- pheno.diffmima(pattern.one, period=period, graph=graph) 
+  pergau <- pheno.pergau(pattern.one, graph=graph)
+  kolmogau_kolmouni_uniform <- pheno.kolmogau.kolmouni(pattern.one, ref="uniform", origin="uncorr", graph=graph)
+  kolmogau_kolmouni_gaussian <- pheno.kolmogau.kolmouni(pattern.one, ref="gaussian", origin="corr", graph=graph)
   rutberg <- pheno.rutberg(pattern.one, percent=percent, consecutive=consecutive, graph=graph)
-  sigouin <- pheno.sigouin(pattern.one, graph=graph) 
-  sinclair <- pheno.sinclair(pattern.one, graph=graph) 
+  centre <- pheno.centre(pattern.one, graph=graph) 
+  pielou <- pheno.pielou(pattern.one, graph=graph) 
   skinner <- pheno.skinner(pattern.one, period=period, percent=percent, graph=graph)
   zerbe <- pheno.zerbe(pattern.one, percent=percent, graph=graph) 
   # Two years
-  berger <- pheno.berger(pattern.two, graph=graph)
-  diff_function <- pheno.diff(pattern.two, graph=graph)
-  moe2_two_cycles <- pheno.moe2(pattern.two, nb_cycles=2, CI=CI, resolution=resolution, graph=graph)$comp_peak_sigmoid_ci
-  pare <- pheno.pare(pattern.two, graph=graph) 
-  schaik <- pheno.schaik(pattern.two, graph=graph) 
-  whiting <- pheno.whiting(pattern.two, CI=CI, graph=graph)
+  mood <- pheno.mood(pattern.two, graph=graph)
+  diff_function <- pheno.diffbgper.diffmed.diffpeak.diffperiod(pattern.two, graph=graph)
+  comppeaksig_peaksig_two_cycles <- pheno.comppeaksig.peaksig(pattern.two, nb_cycles=2, CI=CI, resolution=resolution, graph=graph)$comp_peak_sigmoid_ci
+  watson <- pheno.watson(pattern.two, graph=graph) 
+  kolmomult <- pheno.kolmomult(pattern.two, graph=graph) 
+  compmean <- pheno.compmean(pattern.two, CI=CI, graph=graph)
   # More than two years
-  adams <- pheno.adams(pattern, period=period, graph=graph)
-  bowyer <- pheno.bowyer(pattern, transformation=transformation, graph=graph)
-  hass <- pheno.hass(pattern, graph=graph)
-  linnell <- pheno.linnell(pattern, post_hoc=post_hoc, graph=graph)
-  loe <- pheno.loe(pattern, graph=graph)
-  millar <- pheno.millar(pattern, graph=graph)
-  paoli_synch <- pheno.paoli2(pattern, graph=graph)
+  khi2 <- pheno.khi2(pattern, period=period, graph=graph)
+  slpcomp <- pheno.slpcomp(pattern, transformation=transformation, graph=graph)
+  bart <- pheno.bart(pattern, graph=graph)
+  cmano <- pheno.cmano(pattern, post_hoc=post_hoc, graph=graph)
+  diffmean_meanlin_varlin <- pheno.diffmean.meanlin.varlin(pattern, graph=graph)
+  meanmult_permean <- pheno.meanmult.permean(pattern, graph=graph)
+  diffslin_synch <- pheno.diffslin(pattern, graph=graph)
   
   ### Fill in the data.frame of the outputs
   fin_sum$pattern <- "BirthPhenology"
-  fin_sum$bart <- hass$k_squared
-  fin_sum$bgper <- bunnellyomtov$beginning_period
-  fin_sum$bgthper <- gaillardmajluf_begin$beginning_period_threshold
-  fin_sum$centre <- sigouin
-  fin_sum$cmano <- linnell$statistic_f
-  fin_sum$compmean <- whiting$comp_mean_ci
-  fin_sum$comppeaksig <- moe2_two_cycles
+  fin_sum$bart <- bart$k_squared
+  fin_sum$bgper <- bgper_per$beginning_period
+  fin_sum$bgthper <- bgthper_interq_begin$beginning_period_threshold
+  fin_sum$centre <- centre
+  fin_sum$cmano <- cmano$statistic_f
+  fin_sum$compmean <- compmean$comp_mean_ci
+  fin_sum$comppeaksig <- comppeaksig_peaksig_two_cycles
   fin_sum$diffbgper <- diff_function$diff_beginning_period
-  fin_sum$diffmean <- loe$diff_mean_linear
+  fin_sum$diffmean <- diffmean_meanlin_varlin$diff_mean_linear
   fin_sum$diffmed <- diff_function$diff_median
-  fin_sum$diffmima <- owensmith2
+  fin_sum$diffmima <- diffmima
   fin_sum$diffpeak <- diff_function$diff_peak
   fin_sum$diffperiod <- diff_function$diff_period
-  fin_sum$diffslin <- paoli_synch$diff_synchrony_linear
-  fin_sum$interq <- gaillardmajluf_quant$interquantiles_period
-  fin_sum$khi2 <- adams$x_squared
-  fin_sum$kolmogau <- riedmanmeng_gaussian$statistic_d
-  fin_sum$kolmomult <- schaik$statistic_d
-  fin_sum$kolmouni <- riedmanmeng_uniform$statistic_d
-  fin_sum$maxprop <- owensmith1_max$prop_births  
-  fin_sum$mean <- findlaylambin$mean 
-  fin_sum$meanlin <- loe$mean_linear_random 
-  fin_sum$meanmult <- millar$mean$mean_multi
-  fin_sum$meanvl <- campos$mean_vect_length
-  fin_sum$meanvo <- campos$mean_vector_orientation
-  fin_sum$med <- findlaylambin$median
-  fin_sum$medprob <- caughley$median_probit
-  fin_sum$minper <- meng$min_period_prop_births_given$length
-  fin_sum$minprop <- owensmith1_min$prop_births  
-  fin_sum$mode <- jemison$mode[1] # only take first peak (in case there are more than one)
-  fin_sum$mood <- berger$statistic_z
-  fin_sum$nbtu <- moe1$nb_tu_minimal_births
-  fin_sum$peaksig <- moe2_one_cycle
-  fin_sum$per <- bunnellyomtov$period 
-  fin_sum$pergau <- paoli
-  fin_sum$perhdr <- calabrese$period_hdr
-  fin_sum$permean <- millar$period$period_mean_multi  
-  fin_sum$pielou <- sinclair
-  fin_sum$propmed <- adamsjemison_median$prop_births
-  fin_sum$propmode <- adamsjemison_median$prop_births
-  fin_sum$rayleigh <- dibitetti$rayleigh
+  fin_sum$diffslin <- diffslin_synch$diff_synchrony_linear
+  fin_sum$interq <- bgthper_interq_quant$interquantiles_period
+  fin_sum$khi2 <- khi2$x_squared
+  fin_sum$kolmogau <- kolmogau_kolmouni_gaussian$statistic_d
+  fin_sum$kolmomult <- kolmomult$statistic_d
+  fin_sum$kolmouni <- kolmogau_kolmouni_uniform$statistic_d
+  fin_sum$maxprop <- maxprop_minprop_max$prop_births  
+  fin_sum$mean <- mean_med_skew_sd$mean 
+  fin_sum$meanlin <- diffmean_meanlin_varlin$mean_linear_random 
+  fin_sum$meanmult <- meanmult_permean$mean$mean_multi
+  fin_sum$meanvl <- meanvl_meanvo$mean_vect_length
+  fin_sum$meanvo <- meanvl_meanvo$mean_vector_orientation
+  fin_sum$med <- mean_med_skew_sd$median
+  fin_sum$medprob <- medprob_sdprob$median_probit
+  fin_sum$minper <- minper$min_period_prop_births_given$length
+  fin_sum$minprop <- maxprop_minprop_min$prop_births  
+  fin_sum$mode <- mode$mode[1] # only take first peak (in case there are more than one)
+  fin_sum$mood <- mood$statistic_z
+  fin_sum$nbtu <- nbtu$nb_tu_minimal_births
+  fin_sum$peaksig <- comppeaksig_peaksig_one_cycle
+  fin_sum$per <- bgper_per$period 
+  fin_sum$pergau <- pergau
+  fin_sum$perhdr <- perhdr$period_hdr
+  fin_sum$permean <- meanmult_permean$period$period_mean_multi  
+  fin_sum$pielou <- pielou
+  fin_sum$propmed <- propmed_propmode_median$prop_births
+  fin_sum$propmode <- propmed_propmode_median$prop_births
+  fin_sum$rayleigh <- rayleigh$rayleigh
   fin_sum$rutberg <- rutberg$rutberg
-  fin_sum$sd <- findlaylambin$standard_deviation 
-  fin_sum$sdprob <- caughley$standard_deviation_probit
-  fin_sum$skew <- findlaylambin$skewness_var
+  fin_sum$sd <- mean_med_skew_sd$standard_deviation 
+  fin_sum$sdprob <- medprob_sdprob$standard_deviation_probit
+  fin_sum$skew <- mean_med_skew_sd$skewness_var
   fin_sum$skinner <- skinner$skinner
-  fin_sum$slpcomp <- bowyer$slope_comparison
-  fin_sum$var <- johnson_noncorr  
-  fin_sum$varcor <- johnson_corr
-  fin_sum$varlin <- loe$seasonality_linear_random 
-  fin_sum$watson <- pare$statistic_f
+  fin_sum$slpcomp <- slpcomp$slope_comparison
+  fin_sum$var <- var_noncorr  
+  fin_sum$varcor <- var_corr
+  fin_sum$varlin <- diffmean_meanlin_varlin$seasonality_linear_random 
+  fin_sum$watson <- watson$statistic_f
   fin_sum$zerbe <- zerbe$zerbe_perl$length_period
   
   ### Convert TRUE/FALSE to 1/0
