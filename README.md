@@ -55,7 +55,7 @@ DATA & FILE OVERVIEW
 
 
 1. File List: example.R, peakfinder.pl, phenology_metrics.R, phenology_metrics_top4.R, simulation_birth_phenology_non_norm.R, simulation_birth_phenology_norm.R
-This repository contains R codes to simulate phenology of births and to evaluate four characteristics of phenology (timing, synchrony, rhythmicity, regularity) thanks to metrics previously used to quantify phenology of births in large herbivores literature. These codes are used in the analyses of the scientific paper “How to describe and measure phenology? An investigation on the diversity of metrics using phenology of births in large herbivores” (DOI: 10.1111/oik.08917), to be published in Oikos.
+This repository contains R codes to simulate phenology of births and to evaluate four characteristics of phenology (timing, synchrony, rhythmicity, regularity) thanks to metrics previously used to quantify phenology of births in large herbivores literature. These codes are used in the analyses of the scientific paper “How to describe and measure phenology? An investigation on the diversity of metrics using phenology of births in large herbivores” (DOI: 10.1111/oik.08917), published in Oikos: Thel L., Chamaillé-Jammes S., & Bonenfant C. 2022. How to describe and measure phenology? An investigation on the diversity of metrics using phenology of births in large herbivores. - Oikos e08917.
 
 
 
