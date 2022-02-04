@@ -71,4 +71,4 @@ Run example.R code to execute the functions. See phenology_metrics.R, simulation
 
 
 
-This readme.txt file was generated on 2022-01-21 by Lucie Thel
+This readme.txt file was generated on 2022-02-04 by Lucie Thel
